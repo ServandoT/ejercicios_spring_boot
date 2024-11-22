@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,4 +69,26 @@ public class ControladorEjercicios {
         return "<head><link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css\" rel=\"stylesheet\"></head><body class='d-flex justify-content-center align-items-center vh-100 m-0'><h2>Tu grado de satisfacción es " + satisfaccion + "</h2></body>";
     }
     
+    @PostMapping("/generarContrasena")
+    public String ejercicio6(@RequestParam int longitud) {
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < longitud; i++) {
+            password.append(randomSymbol());
+        }
+
+        return password.toString();
+    }
+    
+    /**
+     * Genera un símbolo aleatorio usando codigo ASCII (33-126)
+     * 
+     * @return Símbolo generado de manera aleatoria
+     */
+    private char randomSymbol() {
+        /* nextInt() devuelve un número aleatorio desde 0 hasta el valor pasado
+        menos 1: en este caso se le pasa 94 y genera desde 0 hasta 93. Luego 
+        le sumamos 33 para tener el rango 33-126 */
+        return (char)(new Random().nextInt(126 - 33 + 1) + 33);
+    }
 }
