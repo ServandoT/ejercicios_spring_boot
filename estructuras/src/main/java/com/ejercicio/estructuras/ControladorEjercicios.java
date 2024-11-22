@@ -23,13 +23,14 @@ public class ControladorEjercicios {
     @PostMapping("/tablaMultiplicar")
     public String ejercicio2(@RequestParam int numero) {
         StringBuilder res = new StringBuilder();
-        res.append("<ul>");
+        res.append("<head><link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\r\n" + //
+                        "</head><body><ul class='list-group'>");
 
         for (int i = 1; i <= 10; i++) {
-            res.append("<li>" + numero + " x " + i + " = " + (i * numero) + "</l1>");
+            res.append("<li class='list-group-item'>" + numero + " x " + i + " = " + (i * numero) + "</l1>");
         }
 
-        res.append("</ul>");
+        res.append("</ul></body>");
 
         return res.toString();
     }
@@ -40,7 +41,23 @@ public class ControladorEjercicios {
         double notaTotal = notaStrings.stream().map(nota -> Double.parseDouble(nota)).reduce(0.0, (nota1, nota2) -> nota1 + nota2);
         double promedio = notaTotal / notaStrings.size();
 
-        return promedio >= 5 ? "Has aprobado" : "Has suspendido";
+        return "Has sacado un " + promedio + (promedio >= 5 ? ", has aprobado" : ", has suspendido");
     }
     
+    @PostMapping("/calcularIMC")
+    public String ejercicio4(@RequestParam double peso, @RequestParam double altura) {
+        double imc = peso / (altura * altura);
+        String res = "Tu IMC es " + String.format("%,.2f", imc) + ": "; // Formatea el double con dos decimales
+        if (imc < 18.5) {
+            res += "bajo peso";
+        } else if (imc >= 18.5 && imc < 25) {
+            res += "normal";
+        } else if (imc >= 25 && imc < 30) {
+            res += "sobrepeso";
+        } else {
+            res += "obesidad";
+        }
+
+        return res;
+    }
 }
