@@ -1,8 +1,14 @@
 package com.ejercicio.estructuras;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -27,6 +33,15 @@ public class ControladorEjercicios {
         res.append("</ul>");
 
         return res.toString();
+    }
+    
+    @PostMapping("/promedioCalificaciones")
+    public String ejercicio3(@RequestParam String calificaciones) {
+        List<String> notaStrings = Arrays.asList(calificaciones.split(","));
+        double notaTotal = notaStrings.stream().map(nota -> Double.parseDouble(nota)).reduce(0.0, (nota1, nota2) -> nota1 + nota2);
+        double promedio = notaTotal / notaStrings.size();
+
+        return promedio >= 5 ? "Has aprobado" : "Has suspendido";
     }
     
 }
